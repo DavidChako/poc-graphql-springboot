@@ -13,3 +13,17 @@ class BookController {
     @SchemaMapping
     fun author(book: Book) = Author.getById(book.authorId)
 }
+
+/*
+query query {
+    bookById(id: "book-2") {
+        id
+        name
+        pageCount
+        author {
+            firstName
+            lastName
+        }
+    }
+}
+*/
