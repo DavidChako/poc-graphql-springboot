@@ -1,21 +1,16 @@
 type Query {
   bookById(id: ID): Book
-  entityById(id: ID): Entity
 }
 
 type Book {
   id: ID
-  name: String
+  title: String
   pageCount: Int
   author: Author
 }
 
 type Author {
   id: ID
-  firstName: String
-  lastName: String
-}
-
-type Entity {
-  id: ID
+  givenName: String
+  surname: String
 }

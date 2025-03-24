@@ -1,4 +1,4 @@
-package com.icosahedron.graphql.model
+package com.icosahedron.graphql
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -1,6 +1,3 @@
-group = "com.icosahedron.poc"
-version = "1.0-SNAPSHOT"
-
 plugins {
     kotlin("jvm") version "2.1.10"
     kotlin("plugin.spring") version "2.1.10"
@@ -11,12 +8,11 @@ plugins {
     groovy // Spock
 }
 
-kotlin {
-    jvmToolchain(19)
+group = "com.icosahedron"
+version = "1.0-SNAPSHOT"
 
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
-    }
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -24,14 +20,13 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
 
     implementation("ch.qos.logback:logback-classic:1.5.17")
+    implementation("com.datomic:peer:1.0.7277")
 
     val spockVersion = "2.4-M5-groovy-4.0"
     testImplementation(platform("org.spockframework:spock-bom:$spockVersion"))
     testImplementation("org.spockframework:spock-core:$spockVersion")
-}
-
-repositories {
-    mavenCentral()
+    testImplementation("org.spockframework:spock-spring:$spockVersion")
+    testImplementation("org.springframework:spring-test:7.0.0-M3")
 }
 
 tasks.test {
@@ -39,5 +34,13 @@ tasks.test {
 
     testLogging {
         events("passed", "skipped", "failed")
+    }
+}
+
+kotlin {
+    jvmToolchain(19)
+
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }
