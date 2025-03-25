@@ -1,8 +1,6 @@
 package com.icosahedron.data
 
 import clojure.lang.Keyword
-import com.icosahedron.graphql.Book
-//import com.icosahedron.graphql.DatomicConfiguration
 import kotlin.collections.map
 import kotlin.collections.toMutableMap
 import kotlin.reflect.KClass

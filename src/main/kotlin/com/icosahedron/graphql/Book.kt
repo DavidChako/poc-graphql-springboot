@@ -1,6 +1,5 @@
 package com.icosahedron.graphql
 
-import com.icosahedron.data.Field
 import com.icosahedron.data.Schema
 import datomic.Connection
 import datomic.Peer
