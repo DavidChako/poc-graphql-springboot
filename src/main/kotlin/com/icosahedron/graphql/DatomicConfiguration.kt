@@ -1,7 +1,5 @@
 package com.icosahedron.graphql
 
-//import com.icosahedron.data.Entity
-//import com.icosahedron.data.entity.BookEntity
 import datomic.Connection
 import datomic.Peer
 import kotlin.jvm.javaClass

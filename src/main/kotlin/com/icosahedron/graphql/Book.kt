@@ -19,12 +19,14 @@ data class Book(val id: String, val title: String, val pageCount: Int, val autho
         private val LOG = LoggerFactory.getLogger(Book.javaClass)
 
         @JvmStatic
-        private val SCHEMA = Schema.Builder("book")
-            .addField("id", Field.Type.STRING, Field.Cardinality.ONE, "The id of the book")
-            .addField("title", Field.Type.STRING, Field.Cardinality.ONE, "The title of the book")
-            .addField("pageCount", Field.Type.LONG, Field.Cardinality.ONE, "The page count of the book")
-            .addField("authorId", Field.Type.STRING, Field.Cardinality.ONE, "The id of the author of the book")
-            .build()
+        private val SCHEMA = Schema.fromDataClass(Book::class)
+
+//        private val SCHEMA = Schema.Builder("book")
+//            .addField("id", Field.Type.STRING, Field.Cardinality.ONE, "The id of the book")
+//            .addField("title", Field.Type.STRING, Field.Cardinality.ONE, "The title of the book")
+//            .addField("pageCount", Field.Type.LONG, Field.Cardinality.ONE, "The page count of the book")
+//            .addField("authorId", Field.Type.STRING, Field.Cardinality.ONE, "The id of the author of the book")
+//            .build()
 
         @JvmStatic
         private val SAMPLE_DATA: List<*> = Util.list(

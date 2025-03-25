@@ -1,10 +1,15 @@
 package com.icosahedron.data
 
 import clojure.lang.Keyword
+import com.icosahedron.graphql.Book
+//import com.icosahedron.graphql.DatomicConfiguration
 import kotlin.collections.map
 import kotlin.collections.toMutableMap
+import kotlin.reflect.KClass
+import kotlin.reflect.full.primaryConstructor
+import org.slf4j.LoggerFactory
 
-data class Schema constructor(val entity: String, val fields: Map<String,Field>) {
+data class Schema(val entity: String, val fields: Map<String,Field>) {
     fun toDatomic(): List<*> = fields.map { (name, field) -> field.toDatomic(entity, name) }
 
     fun keyword(name: String) = fields[name]?.keyword ?: ""
@@ -15,9 +20,9 @@ data class Schema constructor(val entity: String, val fields: Map<String,Field>)
     fun builder() = Builder(entity, fields)
 
     class Builder(val entity: String, nominalFields: Map<String,Field>) {
-        private val fields = nominalFields.toMutableMap()
-
         constructor(entity: String): this(entity, mapOf())
+
+        private val fields = nominalFields.toMutableMap()
 
         fun addField(name: String, type: Field.Type, cardinality: Field.Cardinality, description: String): Builder {
             val keyword = Keyword.intern("$entity/$name")
@@ -33,4 +38,28 @@ data class Schema constructor(val entity: String, val fields: Map<String,Field>)
 
         fun build() = Schema(entity, fields)
     }
+
+    companion object {
+        private val LOG = LoggerFactory.getLogger(Schema.javaClass)
+
+//        private inline fun <reified T : Any> isDataClass() = T::class.isData
+
+        fun <T:Any> fromDataClass(dataClass: KClass<T>): Schema {
+            if (!dataClass.isData) throw IllegalArgumentException("Not a data class: $dataClass")
+
+            LOG.info("Generating schema for {}", dataClass)
+            val builder = Builder(dataClass.simpleName!!.lowercase())
+            dataClass.primaryConstructor?.parameters?.forEach { field ->
+                builder.addField(field.name!!, Field.inferType(field.type.toString()), Field.Cardinality.ONE, "fixme")
+            }
+
+            val schema = builder.build()
+            LOG.info("Done generating schema: {}", schema)
+
+            LOG.info("Datomic schema of {}:\n{}", dataClass, schema.toDatomic().joinToString("\n"))
+            return schema
+        }
+    }
 }
+
+

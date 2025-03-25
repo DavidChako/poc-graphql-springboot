@@ -1,6 +1,8 @@
 package com.icosahedron.data
 
 import clojure.lang.Keyword
+import com.icosahedron.data.Field.Type.LONG
+import com.icosahedron.data.Field.Type.STRING
 import datomic.Util
 
 data class Field(
@@ -18,11 +20,19 @@ data class Field(
 
     enum class Type(val value: String) {
         STRING("string"),
-        LONG("long")
+        LONG("long");
     }
 
     enum class Cardinality(val value: String) {
         ONE("one"),
         MANY("many")
+    }
+
+    companion object {
+        fun inferType(type: String) = when (type) {
+            "kotlin.String" -> STRING
+            "kotlin.Int" -> LONG
+            else -> throw IllegalArgumentException("Unsupported type $type")
+        }
     }
 }

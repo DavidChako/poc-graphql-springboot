@@ -24,11 +24,12 @@ class BookController {
 query query {
     bookById(id: "book-2") {
         id
-        name
+        title
         pageCount
         author {
-            firstName
-            lastName
+            id
+            givenName
+            surname
         }
     }
 }
