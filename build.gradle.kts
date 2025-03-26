@@ -12,6 +12,7 @@ group = "com.icosahedron"
 version = "1.0-SNAPSHOT"
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -20,6 +21,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
 
     implementation("ch.qos.logback:logback-classic:1.5.17")
+
+    implementation("com.icosahedron:poc-datomic:1.0.0")
 
     implementation("com.datomic:peer:1.0.7277")
     implementation("org.clojure:clojure") {
