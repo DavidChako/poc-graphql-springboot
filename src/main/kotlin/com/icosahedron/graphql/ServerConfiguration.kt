@@ -3,6 +3,7 @@ package com.icosahedron.graphql
 import com.icosahedron.graphql.data.entity.Author
 import com.icosahedron.graphql.data.entity.Book
 import com.icosahedron.graphql.data.source.StaticDataSource
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.PropertySource
@@ -10,15 +11,29 @@ import org.springframework.context.annotation.PropertySource
 @Configuration
 @PropertySource("classpath:application.properties")
 class ServerConfiguration {
+//    @Bean
+//    fun bookDataSource() = StaticDataSource<Book>(
+//        Book::id,
+//        listOf(
+//            Book("book-1", "Harry Potter and the Philosopher's Stone", 223, "author-1"),
+//            Book("book-2", "Moby Dick", 635, "author-2"),
+//            Book("book-3", "Interview with the vampire", 371, "author-3")
+//        )
+//    )
+
     @Bean
-    fun bookDataSource() = StaticDataSource<Book>(
-        Book::id,
-        listOf(
-            Book("book-1", "Harry Potter and the Philosopher's Stone", 223, "author-1"),
-            Book("book-2", "Moby Dick", 635, "author-2"),
-            Book("book-3", "Interview with the vampire", 371, "author-3")
+    fun bookDataSource(): StaticDataSource<Book> {
+        val dataSource = StaticDataSource(
+            Book::id,
+            listOf(
+                Book("book-1", "Harry Potter and the Philosopher's Stone", 223, "author-1"),
+                Book("book-2", "Moby Dick", 635, "author-2"),
+                Book("book-3", "Interview with the vampire", 371, "author-3")
+            )
         )
-    )
+        LOG.info("Book data source: {}", dataSource)
+        return dataSource
+    }
 
     @Bean
     fun authorDataSource() = StaticDataSource<Author>(
@@ -29,6 +44,11 @@ class ServerConfiguration {
             Author("author-3", "Anne", "Rice")
         )
     )
+
+
+    companion object {
+        private val LOG = LoggerFactory.getLogger(ServerConfiguration::class.java)
+    }
 
 //    companion object {
 //        private val LOG = LoggerFactory.getLogger(ServerConfiguration::class.java)
